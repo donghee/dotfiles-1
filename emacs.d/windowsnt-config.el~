@@ -1,0 +1,136 @@
+;; load path
+
+(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(column-number-mode t)
+ '(current-language-environment "Korean")
+ '(default-input-method "korean-hangul")
+ '(display-battery-mode t)
+ '(even-window-heights nil)
+ '(initial-buffer-choice t)
+ '(quack-programs (quote ("c:\\work\\plt\\mzscheme.exe" "bigloo" "csi" "csi -hygienic" "gosh" "gsi" "gsi ~~/syntax-case.scm -" "guile" "kawa" "mit-scheme" "mred -z" "mzscheme" "mzscheme -il r6rs" "mzscheme -il typed-scheme" "mzscheme -M errortrace" "mzscheme3m" "mzschemecgc" "rs" "scheme" "scheme48" "scsh" "sisc" "stklos" "sxi")))
+ '(setq default-tab-width t)
+ '(show-paren-mode t)
+ '(size-indication-mode t)
+ '(speedbar-frame-parameters (quote ((minibuffer) (width . 20) (border-width . 0) (menu-bar-lines . 0) (tool-bar-lines . 0) (unsplittable . t) (left-fringe . 0))))
+ '(split-window-keep-point t)
+ '(tab-stop-list (quote (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 72 76 80 84 88 92)))
+ '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify)))
+ '(tool-bar-mode nil)
+ '(w32shell-cygwin-bin "C:\\work\\cygwin\\bin")
+ '(w32shell-shell "cygwin")
+; '(w32shell-shell "cmd")
+ '(speedbar-directory-button-trim-method (quote trim))
+ '(speedbar-track-mouse-flag t)
+ '(speedbar-use-imenu-flag nil))
+
+;;-- set custom font --
+(set-face-font 'default
+			   (create-fontset-from-fontset-spec
+				"-outline-Consolas-normal-r-normal-normal-15-112-96-96-c-*-fontset-most,
+				korean-ksc5601:-outline-Malgun Gothic-normal-r-normal-normal-*-*-96-96-p-*-ksc5601.1987-0,
+				latin-iso8859-2:-*-*-normal-r-*-*-*-*-*-*-c-*-iso8859-2,
+				latin-iso8859-3:-*-*-normal-r-*-*-*-*-*-*-c-*-iso8859-3,
+				latin-iso8859-4:-*-*-normal-r-*-*-*-*-*-*-c-*-iso8859-4,
+				cyrillic-iso8859-5:-*-*-normal-r-*-*-*-*-*-*-c-*-iso8859-5,
+				greek-iso8859-7:-*-*-normal-r-*-*-*-*-*-*-c-*-iso8859-7,
+				latin-iso8859-9:-*-*-normal-r-*-*-*-*-*-*-c-*-iso8859-9,
+				japanese-jisx0208:-*-MS Gothic-normal-r-*-*-*-*-*-*-c-*-jisx0208-sjis,
+				katakana-jisx0201:-*-MS Gothic-normal-r-*-*-*-*-*-*-c-*-jisx0208-sjis,
+				latin-jisx0201:-*-MS Gothic-normal-r-*-*-*-*-*-*-c-*-jisx0208-sjis,
+				japanese-jisx0208-1978:-*-MS Gothic-normal-r-*-*-*-*-*-*-c-*-jisx0208-sjis,
+				chinese-gb2312:-*-MS Song-normal-r-*-*-*-*-*-*-c-*-gb2312-*,
+				chinese-big5-1:-*-MingLiU-normal-r-*-*-*-*-*-*-c-*-big5-*,
+				chinese-big5-2:-*-MingLiU-normal-r-*-*-*-*-*-*-c-*-big5-*" t) )
+(setq w32-enable-italics t)
+
+
+;; Pymacs
+(require 'pymacs)
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+
+
+(eval-after-load "pymacs"
+  '(add-to-list 'pymacs-load-path "~/.emacs.d/"))
+
+;;(require 'pycomplete)
+
+(setenv "PYMACS_PYTHON" "C:\\Python26\\python.exe")
+(pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport t)
+
+
+;; tramp
+(require 'tramp)
+(setq tramp-default-method "plinkx")
+
+:;; Use ssh mode with plink
+(setq ssh-program "C:\\work\\Utils\\plink.exe")
+;;; We use Putty session names of the form user@host
+(setq ssh-explicit-args '("-load"))
+
+(defun shell-host ()
+  (interactive)
+  (make-local-variable 'default-directory)
+  (cd-absolute "/plinkx:dak@cici#110:~")
+  (shell))
+
+
+(defun set-shell-bash ()
+"Set the default shell to be bash."
+(interactive)
+(setq w32-quote-process-args ?\")
+(setq shell-file-name "bash")
+(setq cdpath "c:/work/cygwin/home/donghee")
+(setq homepath "c:/work/cygwin/home/donghee")
+(setenv "CDPATH" cdpath)
+(setenv "HOME" homepath)
+(setq process-coding-system-alist '(("bash" . undecided-unix)))
+(setenv "SHELL" shell-file-name)
+(setq explicit-shell-file-name shell-file-name)
+(setq explicit-bash-args '("--login" "-i")) ; see shell.el
+(setq shell-command-switch "-c")
+(add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+(message "Shell is now bash")
+(setq exec-path (cons "c:/work/cygwin/bin/" exec-path))
+(setq exec-path (cons "c:/work/cygwin/usr/local/bin/" exec-path))
+(setq exec-path (cons "c:/work/cygwin/usr/bin/" exec-path))
+)
+
+;; auto-complete
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(ac-config-default)
+;(require 'auto-complete-yasnippet)
+
+;; register jumping
+;; C-x r j e or b 
+(set-register ?e '(file . "~/.emacs"))
+(set-register ?b '(file . "c:/work/cygwin/home/donghee/doc/org/backlog.org"))
+(set-register ?c '(file . "c:/work/cygwin/home/donghee/doc/org/textallion/clubhousecw20100909/index.t2t"))
+(set-register ?s '(file . "c:/work/cygwin/home/donghee/bin/qook_smsclient.py"))
+
+
+;(require 'python)
+(setq py-jython-command "C:/Python26/python.exe")
+(setq py-python-command "C:/Python26/python.exe")
+(setq python-command "C:/Python26/python.exe")
+
+(setq j-path "C:/work/j602/bin/")
+(setq j-command "C:/work/j602/bin/jconsole.exe")
+
+;;; quack
+(setq quack-pltcollect-dirs '("C:/work/PLT/collects/"))
+(setq quack-default-program "c:/work/plt/mzscheme.exe")
+(require 'quack)

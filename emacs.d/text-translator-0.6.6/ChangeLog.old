@@ -1,0 +1,99 @@
+[変更履歴 - ChangeLog]
+
+0.4.3 から 0.4.4 での変更点 Changes from 0.4.3 to 0.4.4:
+
+* plus さんによるパッチを適用
+* 前回パッチによりプリフィックスキーが変更できなくなっていた問題を修正
+* transient-mark-mode が nil の場合に翻訳できない問題を修正
+(R さんより. ありがとう.)
+
+0.4.2 から 0.4.3 での変更点 Changes from 0.4.2 to 0.4.3:
+
+* plusさんによるパッチを適用.
+* 関数名の変更
+名称を text-translator-動詞-なんとか という形式に統一
+- text-translator-another-site から
+text-translator-translate-recent-type に変更
+* history-delete-duplicates を t にヒストリの重複を回避
+* コードのシンプル化
+* freshtype が使用できなくなっていたのを修正.
+
+0.4.1.2 から 0.4.2 での変更点 Changes from 0.4.1.2 to 0.4.2:
+
+* コードのシンプル化, エラー処理(plus さんより. ありがとう.)
+* text-translator-pre-string-replace-alist と
+text-translator-post-string-replace-alist の不必要部分の消去
+(plus さんより. ありがとう.)
+
+0.4.1.1 から 0.4.1.2 での変更点 Changes from 0.4.1.1 to 0.4.1.2:
+
+* スペルミスを修正(tekezoさんより. ありがとう.)
+- defualt => default
+- defaut  => default
+* text-translator-translate-default を使ったとき,
+*translated* バッファのモードラインに使った翻訳エンジンが
+正しく表示されていなかったのを修正
+
+0.4.1 から 0.4.1.1 での変更点 Changes from 0.4.1 to 0.4.1.1:
+
+* キーを変更
+- プリフィックスキーを C-c に戻した.
+- プリフィックスキー + 英小文字/英大文字にバインドされているキーを変更
+
+0.4 から 0.4.1 での変更点 Changes from 0.4 to 0.4.1:
+
+* キー割り当てを変更
+- プリフィックスキーを変更 C-c -> M-t
+- ユーザがプリフィックスキーを設定できるように変更
+- ウィンドウ移動のキーを廃止
+* ルー語変換がサーバ移転によって使用できなくなっていたのを修正
+
+0.3.1 から 0.4 での変更点 Changes from 0.3.1 to 0.4:
+
+* エキサイト翻訳が利用できなくなっていたのを修正
+* Basicプロキシに対応 (plusさんより. ありがとう.)
+* 環境変数 HTTP_PROXY の値を参照するように変更
+* メジャーモードを搭載
+* 5つのインタラクティブ関数を追加.
+- text-translator-quit
+- text-translator-toggle-leave-string
+- text-translator-display-last-string
+- text-translator-another-site
+- text-translator-translate-default
+* 翻訳サイトの追加.
+- OCN      [日本語, 英語]
+- OCN      [日本語, 韓国語]
+- OCN      [日本語, 中国語]
+- FreshEye [日本語, 英語]
+* ユーザエージェントを最新の Windows 版 Firefox(2.0.0.4) に変更
+
+0.3 から 0.3.1 での変更点 Changes from 0.3 to 0.3.1:
+
+* 翻訳サイトの追加.
+- Google    [英語, アラビア語]
+- Google    [ドイツ語, フランス語]
+- Google    [英語, ポルトガル語]
+- Google    [英語, ロシア語]
+- Google    [英語, 韓国語]
+- Altavista [英語, オランダ語]
+- Altavista [英語, フランス語]
+- Altavista [英語, ドイツ語]
+- Altavista [英語, ギリシャ語]
+- Altavista [英語, イタリア語]
+- Altavista [英語, 韓国語]
+- Altavista [英語, ポルトガル語]
+- Altavista [英語, ロシア語]
+- Altavista [英語, スペイン語]
+- Altavista [オランダ語, フランス語]
+- Altavista [フランス語, ドイツ語]
+- Altavista [フランス語, ギリシャ語]
+- Altavista [フランス語, イタリア語]
+- Altavista [フランス語, ポルトガル語]
+- Altavista [フランス語, スペイン語]
+- ルー語変換 [通常, ルーブログ風]
+
+0.2 から 0.3 での変更点 Changes from 0.2 to 0.3:
+
+* カスタマイズ可能な変数を defvar から defcustom に変更.
+* doc-string に翻訳の怪しい英語文を追加.
+* 翻訳サイトとして, google の英独, 英スペイン, 英伊, 英仏を追加.

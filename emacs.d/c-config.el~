@@ -1,0 +1,121 @@
+;; set tab width to 4 on C-mode
+(defun my-c++-indent-setup ()
+  (setq c-basic-offset 4)
+  (setq indent-tabs-mode nil))
+
+
+(defun my-c-c++-compile ()
+  (setq buffer-save-without-query t)
+  (define-key c-mode-map [f5] 'recompile)
+  (define-key c++-mode-map [f5] 'recompile)
+)
+
+(add-hook 'c++-mode-hook 'my-c++-indent-setup)
+(add-hook 'c-mode-hook 'my-c++-indent-setup)
+(add-hook 'c++-mode-hook 'my-c-c++-compile)
+(add-hook 'c-mode-hook 'my-c-c++-compile)
+
+;; Set up auto-newline for c and c++
+(setq-default c-auto-newline 1)
+
+;; My default setting C-mode
+(add-hook 'c-mode-common-hook
+	  (function (lambda ()
+                      (setq-default tab-width 4 indent-tabs-mode nil)
+		      (setq c-tab-always-indent nil)
+		      (local-set-key "\r" 'reindent-then-newline-and-indent))))
+
+;; (defun c-automatically-close()
+;;   (local-set-key "[" 'self-insert-pair)
+;;   (local-set-key "{" 'self-insert-pair)
+;;   (local-set-key "}" 'self-insert-pair)
+;;   (local-set-key "(" 'self-insert-pair)
+;; ;  (local-set-key "\"" 'self-insert-pair)
+;; )
+
+;; (add-hook 'c-mode-hook 'c-automatically-close)
+;; (add-hook 'c++-mode-hook 'c-automatically-close)
+
+;; (add-hook 'c-mode-hook '(lambda ()
+;;      (define-key c-mode-base-map "{" 'self-insert-pair)
+;;      (define-key c-mode-base-map "}" 'self-insert-pair)
+;;      (define-key c-mode-base-map "(" 'self-insert-pair)
+;;      (define-key c-mode-base-map ")" 'self-insert-pair)
+;; ))
+
+;;automatically close brackets, quotes, etc when typing
+(require 'skeleton)
+
+(defun self-insert-pair()
+   "Insert characters (,{,[,\",$ and their closing counterparts, and 
+then put the cursor in the middle position."
+   (interactive)
+   (setq skeleton-pair t)
+   (let ((char last-command-char))
+     (case char
+       (?\( (skeleton-insert '(nil "(" _ ")")))
+;       (?\) (skeleton-insert '(nil ")")))
+       (?\)
+        (if (equal (char-to-string (following-char)) ")")
+            (goto-char (+ (point) 1) )
+            (skeleton-insert '(nil ")"))
+          )
+        )
+       (?\[ (skeleton-insert '(nil "[" _ "]")))
+       (?\] (skeleton-insert '(nil "]")))
+       (?\$ (skeleton-pair-insert-maybe nil))
+;       (?\{ (skeleton-insert '(nil "{" _ "}")))
+       (?\{ 
+;        (requre 'cc-mode)                                      
+;        (c-electric-brace 1)
+;        (insert "}")
+            (insert "{}")
+            (goto-char(- (point) 1))
+            (newline-and-indent)
+            (newline-and-indent)
+            (previous-line 1)
+            (indent-according-to-mode)
+            )
+       (?\} 
+        (if (equal (char-to-string (following-char)) "}")
+            (goto-char (+ (point) 1) )
+            (skeleton-insert '(nil "}"))
+          )
+         )
+       ;(?\" (skeleton-pair-insert-maybe nil))
+       )))
+
+;;; c mode for linux kernel sources C-c-. 
+(defun linux-c-mode ()
+  "C mode with adjusted defaults for use with the Linux kernel."
+  (interactive)
+  (c-mode)
+  (c-set-style "K&R")
+  (setq c-basic-offset 8))
+(setq auto-mode-alist (cons '("/linux.*/.*\\.[ch]$" . linux-c-mode)
+                            auto-mode-alist))
+
+;; ±âº» ÄÄÆÄÀÏ makefileÀÌ ¾øÀ¸¸é gcc -02 -Wall -o ·Î ÄÄÆÄÀÏ ÇÑ´Ù.
+;; -ansi -pedantic Á»´õ °­·ÂÇÏ°Ô ansiÇ¥ÁØÀ» °Ë»ç.
+;(require 'compile)
+;(add-hook 'c-mode-hook
+;   (lambda ()
+;     (unless (file-exists-p "Makefile")
+;       (set (make-local-variable 'compile-command)
+;	    (let ((file (file-name-nondirectory buffer-file-name)))
+;          (concat "gcc -g -O2 -Wall -o " (file-name-sans-extension file)
+;	      (concat "gcc -g -ansi -pedantic -O2 -Wall -o " (file-name-sans-extension file)
+;		      " " file))))))
+
+
+(defun my-c++-mode ()
+  (setq get-buffer-compile-command
+        (lambda (file)
+          (cons (format "cd ../ ; make"
+                        ))
+                11)))
+(add-hook 'c++-mode-hook 'my-c++-mode)
+
+
+ (require 'xcscope)
+ (setq cscope-do-not-update-database t)

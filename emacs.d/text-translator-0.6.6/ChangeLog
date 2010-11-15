@@ -1,0 +1,160 @@
+2008-04-05  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator-vars.el (text-translator-site-data-alist):
+	freetranslation.comが使用できなくなっていた件を修正.
+	(text-translator-do-fill-region): 名前を変更.
+	(text-translator-space-division-languages): 上記名前の変更に伴い新
+	設. fill-regionをする前に改行をどの文字に置き換えるかの処理に使用
+	する. このリストにある言語なら1つの空白. そうでなければ空文字列.
+
+2008-03-19  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator-vars.el
+	(text-translator-kill-linefeed-and-fill-region): 行単位で処理をす
+	る翻訳エンジン対策に追加.
+
+	* text-translator.el (text-translator-client):
+	text-translator-kill-linefeed-and-fill-regionの処理を追加. 前処理
+	として改行を削除し, 翻訳し終わったらfill-paragraphで見た目を整える
+	処理を追加. これをしないと, 行単位で翻訳しているエンジンなんかだと
+	翻訳結果がアレになったりする.
+	(text-translator-client-filter):
+	text-translator-kill-linefeed-and-fill-regionの処理を追加.挿入する
+	文字列の半分の地点にポイントを置くようにした.
+
+	* text-translator-vars.el (text-translator-site-data-alist): 完全
+	に翻訳結果を取得し終わった後に正規表現にマッチするように各エンジン
+	用の正規表現に閉じタグを追加した.
+
+2008-02-20  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator-vars.el (text-translator-site-data-alist): brを
+	改行に変換しないようにする引数を使用してルー語の通常ではbrを改行に
+	しないように変更. ルー語はもとからbrをして改行をしている.
+	(text-translator-site-data-alist): 正規表現がまずく最後に変な文字
+	列がgoogle翻訳で入ることがあったので修正した.
+
+	* text-translator.el
+	(text-translator-extract-tag-exclusion-string): Google翻訳ではBrタ
+	グを空文字列にしてしまうと改行がなく見づらいので, 改行をするように
+	変更. また, オプショナル引数でこの改行の変換も抑えれるようにした.
+
+	* text-translator-vars.el (text-translator-site-data-alist):
+	text-translator-extract-tag-exclusion-stringにしたことにより,
+	lou5.jp-normalも合わせて変更.
+
+	* text-translator.el
+	(text-translator-extract-tag-exclusion-string): googleの翻訳結果に
+	タグが含まれるようになってしまっていたので, lou専用関数だった
+	text-translator-extract-string-for-lou をタグを除外する関数へと変
+	更.
+
+	* text-translator-vars.el (text-translator-site-data-alist):
+	再びexcite翻訳が使えなくなっていた問題を修正.
+
+2008-01-29  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator-vars.el (text-translator-site-data-alist):
+	excite翻訳が使えない問題を修正
+
+2007-12-08  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator-vars.el (text-translator-version): バージョン番
+	号を0.6.3にアップ.
+
+	* text-translator.el (text-translator): 関数text-translatorを
+	text-translator.el内で最上部にもってきた
+
+	* text-translator-vars.el (text-translator-site-data-alist): ルー
+	語変換の通常バージョンのみタグを除去する関数に変更
+
+	* text-translator.el (text-translator-client-filter): タグを除去し
+	ないように変更
+	(text-translator-extract-string-for-lou): ルー語変換の通常バージョ
+	ンでのみ使用する. タグを除去する関数. 復活させた.
+
+2007-12-07  plus    <MLB33828@nifty.com>
+
+	* text-translator.el
+	(text-translator-translate-by-auto-selection): 第3引数を変数のシン
+	ボルに変更
+	(text-translator-translate-by-auto-selection-enja): 日本語/アルファ
+	ベットの比率計算を簡略化
+	得られた結果が登録済の翻訳エンジンであるかのチェックを削除
+	(text-translator-translate-last-string): オプショナルな第3引数に
+	nil を渡さないように変更
+	(text-translator): 第3引数を Boolean 変数から翻訳エンジンの文字列
+	または関数のシンボルに変更
+	選択した翻訳エンジンを履歴に残す処理を削除
+	選択した翻訳エンジンが登録済であるかのチェックを追加
+	(text-translator-client): 使用する翻訳エンジンを履歴に残す処理を追
+	加
+	(text-translator-client-filter): 翻訳サイトからの出力が正しくワー
+	クバッファに書き込まれるように変更
+	翻訳結果から HTML タグを除去する処理を追加
+	翻訳結果が得られた場合にプロセスを削除する処理を追加
+	(text-translator-extract-string-for-lou): 関数
+	text-translator-client-filter の処理変更に伴い廃止
+	(text-translator-translate-recent-type): 選択した翻訳エンジンを履
+	歴に残す処理を削除
+	(text-translator-translate-default): 関数 text-translator の引数変
+	更に伴い，処理変更
+	(text-translator-check-valid-translation-engine): 追加
+
+	* text-translator-vars.el: 変数 text-translator-site-data-alist の
+	ルー語変換の翻訳結果検索条件を関数から正規表現に変更
+	変数 text-translator-client-connect-end	を廃止
+	変数 text-translator-client-last-point を廃止
+
+2007-11-23  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator.el
+	(text-translator-translate-by-auto-selection-enja): 日本語/アルファ
+	ベットの比率を40%から50%に変更
+	(text-translator-client): レスポンス取得方法を番兵からフィルタへと
+	変更.
+	番兵からフィルタへの変更に伴い, 番兵の関数を削除.
+	(text-translator-client-filter): フィルタを処理する関数を追加
+	(text-translator-extract-string-for-lou): ルー語変換が通常バージョ
+	ンを選んでもタグが入ってくれるのでこちら側で除去.
+
+	* text-translator-vars.el: 変数 text-translator-client-connect-end
+	を追加
+	変数 text-translator-client-last-point を追加
+
+2007-11-18  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator.el: 自動選択する関数を追加. 現在のところ, 日本語
+	/英語のみ.
+
+	* text-translator-vars.el: text-translator-site-data-alist の
+	altavista の項目のコメントにおいて, altavista.com と書くべきところ
+	が, altavista となっているものを修正.
+
+	* text-translator.el: ルー語変換が上手く行かないことの解決に,
+	text-translator-site-data-alist で正規表現を受け付けていた引数に,
+	関数も受けいれられるようにした. 指定された関数がそのまま実行される.
+
+	* text-translator-vars.el (text-translator-site-data-alist): 中国
+	語(繁体字, 簡体字)を追加. 簡体字は, ch. 繁体字は, tw とした.
+
+	* text-translator.el: パッケージ内から日本語を排除した. REAME.en
+	REAME.ja を作成した.
+
+2007-11-17  khiker  <khiker.mail+elisp@gmail.com>
+
+	* text-translator-vars.el: Google の翻訳結果が上手く取得できなくなっ
+	ていたのを修正.
+	(text-translator-site-data-alist): Googleをデフォルトに変更.
+	(text-translator-site-data-alist): .com ドメインが連想配列の先頭に
+	来るように修正.
+	(text-translator-site-data-alist): 翻訳形式名に.co.jpや.comのよう
+	なドメインも含むようにした
+	(text-translator-site-data-alist): Yahooでの中国語を表す2文字をcn
+	からchに変更した
+	(text-translator-site-data-alist): OCNにおける中国語を表す2文字を
+	zhからchに変更した
+	(text-translator-default-engine): デフォルトのエンジンを
+	google.com_enjaに変更
+	(text-translator-site-data-alist): 翻訳形式にfreetranslation.comを追加.
+
